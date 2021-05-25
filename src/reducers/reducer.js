@@ -43,8 +43,8 @@ export default function reducer(state = initialState, action) {
         	};
         case "sortRequests":
         	const requestsSorted = (state.sortType === "toTop") 
-        	? state.requests.concat().sort(sortDown(action.sortField)) :
-        	state.requests.concat().sort(sortTop(action.sortField));
+        		? state.requests.concat().sort(sortDown(action.sortField)) 
+        		: state.requests.concat().sort(sortTop(action.sortField));
         	return {
         		...state,
         		sortField: action.sortField,
