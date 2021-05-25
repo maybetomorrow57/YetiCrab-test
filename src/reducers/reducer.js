@@ -25,10 +25,11 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 showAddRequest: !state.showAddRequest
             };
-        case "correctRequest": 
+        case "correctRequest":
+        	const requestsCopy = state.requests.concat();
         	return {
         		...state,
-        		requests: replaceElementInArray(state.requests, action.correctedRequest)
+        		requests: replaceElementInArray(requestsCopy, action.correctedRequest)
         	};
         case "requestDetails": 
             return {
@@ -40,12 +41,15 @@ export default function reducer(state = initialState, action) {
         		...state,
         		requestDetails: null
         	};
-        case "sortRequests": 
+        case "sortRequests":
+        	const requestsSorted = (state.sortType === "toTop") 
+        	? state.requests.concat().sort(sortDown(action.sortField)) :
+        	state.requests.concat().sort(sortTop(action.sortField));
         	return {
         		...state,
         		sortField: action.sortField,
-        		sortType: state.sortType === "toTop" ? "toDown" : "toTop",
-        		requests: state.sortType === "toTop" ? state.requests.sort(sortDown(action.sortField)) : state.requests.sort(sortTop(action.sortField))
+        		sortType: (state.sortType === "toTop") ? "toDown" : "toTop",
+        		requests: requestsSorted
         	};
         
         default: return state;
